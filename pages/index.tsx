@@ -46,6 +46,10 @@ const Home = () => {
           size="md"
           onChange={discountChange}
           type="number"
+          inputMode="numeric"
+          min={0}
+          pattern="[0-9]*"
+          title="Non-negative integral number"
           placeholder="20%"
         />
       </InputWrapper>
