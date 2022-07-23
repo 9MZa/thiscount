@@ -34,6 +34,10 @@ const Home = () => {
           size="md"
           onChange={totalChange}
           type="number"
+          inputMode="numeric"
+          min={0}
+          pattern="[0-9]*"
+          title="Non-negative integral number"
           placeholder="2000"
         />
       </InputWrapper>
