@@ -1,149 +1,55 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+import { useState } from "react";
+import DiscountCalculate from "../components/Discount";
+
 import {
-  createStyles,
-  Text,
-  Group,
-  Button,
+  Input,
+  InputWrapper,
+  NumberInput,
   Container,
-  useMantineTheme,
+  Title,
+  Space,
+  Text,
 } from "@mantine/core";
 
-const BREAKPOINT = "@media (max-width: 755px)";
+const Home = () => {
+  const [total, setTotal] = useState();
+  const [discount, setDiscount] = useState();
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    position: "relative",
-    boxSizing: "border-box",
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
-  },
+  const totalChange = (e: any) => {
+    setTotal(e.target.value);
+  };
 
-  inner: {
-    position: "relative",
-    paddingTop: 200,
-    paddingBottom: 120,
+  const discountChange = (e: any) => {
+    setDiscount(e.target.value);
+  };
 
-    [BREAKPOINT]: {
-      paddingBottom: 80,
-      paddingTop: 80,
-    },
-  },
+  let result = DiscountCalculate(Number(total), Number(discount));
 
-  title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    fontSize: 62,
-    fontWeight: 900,
-    lineHeight: 1.1,
-    margin: 0,
-    padding: 0,
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
-
-    [BREAKPOINT]: {
-      fontSize: 42,
-      lineHeight: 1.2,
-    },
-  },
-
-  description: {
-    marginTop: theme.spacing.xl,
-    fontSize: 24,
-
-    [BREAKPOINT]: {
-      fontSize: 18,
-    },
-  },
-
-  controls: {
-    marginTop: theme.spacing.xl * 2,
-
-    [BREAKPOINT]: {
-      marginTop: theme.spacing.xl,
-    },
-  },
-
-  control: {
-    height: 54,
-    paddingLeft: 38,
-    paddingRight: 38,
-
-    [BREAKPOINT]: {
-      height: 54,
-      paddingLeft: 18,
-      paddingRight: 18,
-      flex: 1,
-    },
-  },
-
-  githubControl: {
-    borderWidth: 2,
-    borderColor:
-      theme.colorScheme === "dark" ? "transparent" : theme.colors.dark[9],
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[5] : "transparent",
-
-    "&:hover": {
-      backgroundColor: `${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0]
-      } !important`,
-    },
-  },
-}));
-
-const Home: NextPage = () => {
-  const { classes, cx } = useStyles();
-  const theme = useMantineTheme();
   return (
-    <>
-      <div className={classes.wrapper}>
-        <Container size={700} className={classes.inner}>
-          <h1 className={classes.title}>
-            A{" "}
-            <Text
-              component="span"
-              variant="gradient"
-              gradient={{ from: "blue", to: "cyan" }}
-              inherit
-            >
-              fully featured
-            </Text>{" "}
-            React components and hooks library
-          </h1>
-
-          <Text className={classes.description} color="dimmed">
-            Build fully functional accessible web applications with ease –
-            Mantine includes more than 100 customizable components and hooks to
-            cover you in any situation
-          </Text>
-
-          <Group className={classes.controls}>
-            <Button
-              component="a"
-              href="https://mantine.dev/getting-started/"
-              size="xl"
-              className={classes.control}
-              variant="gradient"
-              gradient={{ from: "blue", to: "cyan" }}
-            >
-              Get started
-            </Button>
-
-            <Button
-              component="a"
-              href="https://github.com/mantinedev/mantine"
-              size="xl"
-              variant="outline"
-              className={cx(classes.control, classes.githubControl)}
-              color={theme.colorScheme === "dark" ? "gray" : "dark"}
-            >
-              GitHub
-            </Button>
-          </Group>
-        </Container>
-      </div>
-    </>
+    <Container size="sm" mt={40}>
+      <Title align="center">ลดเท่าไหร่กันนะ</Title>
+      <Space />
+      <InputWrapper label="ราคาปกติ" mt={30}>
+        <Input
+          size="md"
+          onChange={totalChange}
+          type="number"
+          placeholder="2000"
+        />
+      </InputWrapper>
+      <InputWrapper label="ส่วนลด %" defaultValue={20} mt={30}>
+        <Input
+          size="md"
+          onChange={discountChange}
+          type="number"
+          placeholder="20%"
+        />
+      </InputWrapper>
+      <Space py={20} />
+      <Title order={2} align="center">
+        {total && discount !== undefined ? `ลดเหลือ ${result.sumTotal}` : ""}{" "}
+      </Title>
+    </Container>
   );
 };
 
