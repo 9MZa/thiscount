@@ -55,7 +55,20 @@ const Home = () => {
       </InputWrapper>
       <Space py={20} />
       <Title order={2} align="center">
-        {total && discount !== undefined ? `ลดเหลือ ${result.sumTotal}` : ""}{" "}
+        {total && discount !== undefined ? (
+          <Title
+            order={2}
+            sx={(theme) => ({
+              color: theme.colors.green[6],
+            })}
+          >
+            {result.sumTotal > 0
+              ? `ลดเหลือ ${result.sumTotal.toLocaleString()}`
+              : "ของถูกงี้ให้ฟรีเหอะ"}
+          </Title>
+        ) : (
+          ""
+        )}
       </Title>
     </Container>
   );
