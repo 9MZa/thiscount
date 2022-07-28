@@ -40,7 +40,15 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         toggleColorScheme={toggleColorScheme}
       >
         <MantineProvider
-          theme={{ colorScheme }}
+          theme={{
+            colorScheme,
+            primaryColor: "indigo",
+            primaryShade: 5,
+            headings: {
+              fontFamily: "IBM Plex Sans Thai, sans-serif",
+            },
+            fontFamily: "IBM Plex Sans Thai, sans-serif",
+          }}
           withGlobalStyles
           withNormalizeCSS
         >

@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import Discount from "../components/Discount";
 
-const Home = () => {
+const discount = () => {
   return (
     <Layout>
       <Discount />
@@ -9,4 +9,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default discount;
