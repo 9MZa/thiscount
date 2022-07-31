@@ -83,8 +83,8 @@ const Discount = () => {
         คำนวณส่วนลดสินค้า
       </Title>
       <Space h="xl" />
-      <Grid columns={2} grow gutter="xl">
-        <Grid.Col span={1}>
+      <Grid columns={3} grow gutter="xl">
+        <Grid.Col sm={3} md={1}>
           <Box className={classes.inputWrapper}>
             <Box
               className={classes.inputBox}
@@ -101,7 +101,7 @@ const Discount = () => {
             <Text className={classes.inputDetail}>ราคาปกติ</Text>
           </Box>
         </Grid.Col>
-        <Grid.Col span={1}>
+        <Grid.Col sm={3} md={1}>
           <Box className={classes.inputWrapper}>
             <Box
               className={classes.inputBox}
@@ -118,7 +118,7 @@ const Discount = () => {
             <Text className={classes.inputDetail}>ส่วนลด %</Text>
           </Box>
         </Grid.Col>
-        <Grid.Col span={2}>
+        <Grid.Col sm={3} md={2}>
           <Box className={classes.inputWrapper}>
             <Text className={classes.resultBox}>
               {result.sumTotal > 0
