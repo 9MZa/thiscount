@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { CurrencyBaht } from "tabler-icons-react";
 import PageHero from "../components/PageHero";
-import { VatCalculate } from "../lib/cal";
+import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
 
 const useStyles = createStyles((theme, _params) => ({
   inputBox: {
@@ -35,10 +35,16 @@ const pageData = [{ title: "VAT", description: "คำนวณภาษีม�
 const Vat = () => {
   // const { classes } = useStyles();
   const [incValue, setIncValue] = useState<number>(0);
+  const [excValue, setExcValue] = useState<number>(0);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInc(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault;
     setIncValue(Number(e.target.value));
+  }
+
+  function handleExc(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault;
+    setExcValue(Number(e.target.value));
   }
 
   return (
@@ -69,16 +75,17 @@ const Vat = () => {
             </Tabs.Tab>
           </Tabs.List>
 
+          {/* include VAT */}
           <Tabs.Panel value="include" pt="xs">
             <Paper>
               <TextInput
                 required
-                onChange={handleChange}
+                onChange={handleInc}
                 label="ก่อน VAT"
                 description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
                 size="lg"
                 radius="md"
-                placeholder="กรอกราคาปกติ"
+                placeholder="กรอกจำนวนก่อน VAT"
                 min={0}
                 type="number"
                 inputMode="numeric"
@@ -103,14 +110,48 @@ const Vat = () => {
                 description="ผลลัพธ์หลังรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
                 size="lg"
                 radius="md"
-                value={VatCalculate(incValue)}
+                value={IncVatCalculate(incValue)}
               />
             </Paper>
           </Tabs.Panel>
 
+          {/* exclude VAT */}
           <Tabs.Panel value="exclude" pt="xs">
             <Paper>
-              <Text>ยังทำไม่เสร็จนะ</Text>
+              <TextInput
+                required
+                onChange={handleExc}
+                label="รวม VAT"
+                description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+                size="lg"
+                radius="md"
+                placeholder="กรอกจำนวนรวม VAT"
+                min={0}
+                type="number"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                title="Non-negative integral number"
+              />
+              <Space mt={30} />
+              <TextInput
+                required
+                readOnly
+                defaultValue={7}
+                label="VAT 7%"
+                description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                size="lg"
+                radius="md"
+                type="number"
+              />
+              <Space mt={30} />
+              <TextInput
+                readOnly
+                label="ก่อน VAT"
+                description="ผลลัพธ์ก่อนรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                size="lg"
+                radius="md"
+                value={ExcVatCalculate(excValue)}
+              />
             </Paper>
           </Tabs.Panel>
         </Tabs>

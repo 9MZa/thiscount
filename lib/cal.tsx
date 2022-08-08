@@ -15,8 +15,13 @@ export const CentimetersToInches = (cm: number, inch: number): number => {
   return 0;
 };
 
-export const VatCalculate = (num: number): number => {
+export const IncVatCalculate = (num: number): number => {
   let vat = 7 / 100;
   let result = num + num * vat;
+  return Number(result.toFixed(2));
+};
+
+export const ExcVatCalculate = (num: number): number => {
+  let result = (num / 107) * 100;
   return Number(result.toFixed(2));
 };
