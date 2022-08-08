@@ -11,6 +11,12 @@ export const DiscountCalculate = (total: number, discount: number) => {
   return result;
 };
 
-export const CentimetersToInches = (cm: number, inch: number) => {
-  return;
+export const CentimetersToInches = (cm: number, inch: number): number => {
+  return 0;
+};
+
+export const VatCalculate = (num: number): number => {
+  let vat = 7 / 100;
+  let result = num + num * vat;
+  return Number(result.toFixed(2));
 };

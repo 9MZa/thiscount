@@ -15,11 +15,18 @@ import { Calculator } from "tabler-icons-react";
 const useStyles = createStyles((theme) => ({}));
 
 const items = [
-  { title: "คำนวณส่วนลดสินค้า", href: "/discount" },
-  { title: "แปลงเซนติเมตรเป็นนิ้ว ", href: "#" },
-  { title: "คำนวณ VAT", href: "#" },
+  { title: "ส่วนลดสินค้า", href: "/discount" },
+  { title: "ภาษีมูลค่าเพิ่ม (VAT)", href: "/vat" },
+  // { title: "แปลงเซนติเมตรเป็นนิ้ว ", href: "#" },
 ].map((item, index) => (
-  <Anchor href={item.href} color="gray" sx={{ fontWeight: 600 }} key={index}>
+  <Anchor
+    href={item.href}
+    sx={(theme) => ({
+      fontWeight: 600,
+      color: theme.colors.gray[7],
+    })}
+    key={index}
+  >
     {item.title}
   </Anchor>
 ));
@@ -34,7 +41,6 @@ const Navbar = ({}) => {
       sx={(theme) => ({
         boxShadow: theme.shadows.sm,
         padding: theme.spacing.lg,
-        marginBottom: 56,
       })}
     >
       <Container
@@ -88,7 +94,11 @@ const Navbar = ({}) => {
         <Drawer
           opened={opened}
           onClose={() => setOpened(false)}
-          title="Menu"
+          title={
+            <Title align="center" order={3}>
+              iCalc
+            </Title>
+          }
           padding="xl"
           size="sm"
           position="top"

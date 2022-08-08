@@ -1,14 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { DiscountCalculate } from "../lib/cal";
-import {
-  Text,
-  Title,
-  Space,
-  Box,
-  Container,
-  Grid,
-  createStyles,
-} from "@mantine/core";
+import { Text, Space, Box, Container, Grid, createStyles } from "@mantine/core";
+import PageHero from "./PageHero";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   header: {
@@ -57,78 +50,89 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
+const pageData = [
+  { title: "SALE", description: "คำนวณสินค้าหลังจากลดเป็น % จะเหลือเท่าไหร่" },
+];
+
 const Discount = () => {
-  const [total, setTotal] = useState(2700);
-  const [discount, setDiscount] = useState(20);
+  const [total, setTotal] = useState<number>();
+  const [discount, setDiscount] = useState<number>();
   const { classes } = useStyles();
 
-  const totalChange = (e: any) => {
-    setTotal(e.target.value);
+  const totalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTotal(Number(e.target.value));
   };
 
-  const discountChange = (e: any) => {
-    setDiscount(e.target.value);
+  const discountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDiscount(Number(e.target.value));
   };
 
   let result = DiscountCalculate(Number(total), Number(discount));
 
   return (
-    <Container
-      size="sm"
-      sx={{
-        position: "relative",
-      }}
-    >
-      <Title align="center" className={classes.header}>
-        คำนวณส่วนลดสินค้า
-      </Title>
+    <>
+      <PageHero
+        title={pageData[0].title}
+        description={pageData[0].description}
+      />
       <Space h="xl" />
-      <Grid columns={3} grow gutter="xl">
-        <Grid.Col sm={3} md={1}>
-          <Box className={classes.inputWrapper}>
-            <Box
-              className={classes.inputBox}
-              defaultValue={2700}
-              component="input"
-              onChange={totalChange}
-              type="number"
-              inputMode="numeric"
-              min={0}
-              pattern="[0-9]*"
-              title="Non-negative integral number"
-            />
+      <Container>
+        <Grid columns={3} grow gutter="xl">
+          <Grid.Col sm={3} md={1}>
+            <Box className={classes.inputWrapper}>
+              <Box
+                className={classes.inputBox}
+                component="input"
+                onChange={totalChange}
+                placeholder="2700"
+                min={0}
+                type="number"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                title="Non-negative integral number"
+              />
 
-            <Text className={classes.inputDetail}>ราคาปกติ</Text>
-          </Box>
-        </Grid.Col>
-        <Grid.Col sm={3} md={1}>
-          <Box className={classes.inputWrapper}>
-            <Box
-              className={classes.inputBox}
-              defaultValue={20}
-              component="input"
-              onChange={discountChange}
-              type="number"
-              inputMode="numeric"
-              min={0}
-              pattern="[0-9]*"
-              title="Non-negative integral number"
-            />
+              <Text className={classes.inputDetail}>ราคาปกติ</Text>
+            </Box>
+          </Grid.Col>
+          <Grid.Col sm={3} md={1}>
+            <Box className={classes.inputWrapper}>
+              <Box
+                className={classes.inputBox}
+                component="input"
+                onChange={discountChange}
+                placeholder="20"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                pattern="[0-9]*"
+                title="Non-negative integral number"
+              />
 
-            <Text className={classes.inputDetail}>ส่วนลด %</Text>
-          </Box>
-        </Grid.Col>
-        <Grid.Col sm={3} md={2}>
-          <Box className={classes.inputWrapper}>
-            <Text className={classes.resultBox}>
-              {result.sumTotal > 0
-                ? `ลดเหลือ ${result.sumTotal.toLocaleString()}`
-                : "ถูกงี้ให้ฟรีเหอะ"}
-            </Text>
-          </Box>
-        </Grid.Col>
-      </Grid>
-    </Container>
+              <Text className={classes.inputDetail}>ส่วนลด %</Text>
+            </Box>
+          </Grid.Col>
+          {/* ถูกงี้ให้ฟรีเถอะ */}
+          <Grid.Col sm={3} md={2}>
+            <Box className={classes.inputWrapper}>
+              <Text className={classes.resultBox}>
+                {result.sumTotal > 0
+                  ? `ลดเหลือ ${result.sumTotal.toLocaleString()}`
+                  : ""}
+
+                {result.sumTotal < 0 && totalChange.length > 0
+                  ? "ถูกงี้ให้ฟรีเถอะ"
+                  : ""}
+
+                {result.sumTotal === NaN && totalChange.length !== 0
+                  ? "ถูกงี้ให้ฟรีเถอะ"
+                  : ""}
+              </Text>
+            </Box>
+          </Grid.Col>
+        </Grid>
+      </Container>
+    </>
   );
 };
 

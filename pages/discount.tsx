@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import Discount from "../components/Discount";
 
-const discount = () => {
+const DiscountPage = () => {
   return (
     <Layout>
       <Discount />
@@ -9,4 +9,4 @@ const discount = () => {
   );
 };
 
-export default discount;
+export default DiscountPage;
