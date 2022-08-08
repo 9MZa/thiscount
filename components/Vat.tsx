@@ -94,7 +94,6 @@ const Vat = () => {
                 description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
                 size="lg"
                 radius="md"
-                placeholder="กรอกราคาปกติ"
                 type="number"
               />
               <Space mt={30} />
@@ -105,7 +104,6 @@ const Vat = () => {
                 size="lg"
                 radius="md"
                 value={VatCalculate(incValue)}
-                placeholder="กรอกราคาปกติ"
               />
             </Paper>
           </Tabs.Panel>
