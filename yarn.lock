@@ -215,6 +215,11 @@
     "@floating-ui/dom" "^0.5.3"
     use-isomorphic-layout-effect "^1.1.1"
 
+"@fontsource/ibm-plex-sans-thai@^4.5.9":
+  version "4.5.9"
+  resolved "https://registry.yarnpkg.com/@fontsource/ibm-plex-sans-thai/-/ibm-plex-sans-thai-4.5.9.tgz#89536a8ffc2ebec30861f13339be2059803b0cf8"
+  integrity sha512-vanFHj2TDKY8wFds5kxR3khKSAK/dpMjtbDsPkIlfbRhWGx/HPQd0K0xmP7oBZC2T4vb8CUzjkbD39JXMC7sVw==
+
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.4.tgz#01e7366e57d2ad104feea63e72248f22015c520c"
