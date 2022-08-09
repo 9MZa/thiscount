@@ -1,54 +1,7 @@
 import React, { useState } from "react";
 import { DiscountCalculate } from "../lib/cal";
-import { Text, Space, Box, Container, Grid, createStyles } from "@mantine/core";
+import { TextInput, Paper, Space, Container } from "@mantine/core";
 import PageHero from "./PageHero";
-
-const useStyles = createStyles((theme, _params, getRef) => ({
-  header: {
-    fontSize: 48,
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-      fontSize: 32,
-    },
-  },
-  inputWrapper: {
-    backgroundColor: theme.colors.gray[0],
-  },
-  inputBox: {
-    backgroundColor: theme.colors.gray[1],
-    padding: theme.spacing.xl,
-    textAlign: "center",
-    border: 0,
-    width: "100%",
-    fontSize: "48px",
-    boxSizing: "border-box",
-    color: theme.colors.gray[7],
-    ":focus": {
-      color: theme.colors.gray[8],
-      outlineColor: theme.colors.indigo[5],
-    },
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-      fontSize: 30,
-    },
-  },
-  inputDetail: {
-    fontSize: theme.fontSizes.xl,
-    textAlign: "center",
-    border: `1px solid ${theme.colors.gray[2]}`,
-    padding: theme.spacing.xs,
-  },
-
-  resultBox: {
-    backgroundColor: theme.colors.green[0],
-    fontSize: 54,
-    fontWeight: 600,
-    color: theme.colors.green[7],
-    textAlign: "center",
-    padding: theme.spacing.xl,
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-      fontSize: 30,
-    },
-  },
-}));
 
 const pageData = [
   { title: "SALE", description: "คำนวณสินค้าหลังจากลดเป็น % จะเหลือเท่าไหร่" },
@@ -57,7 +10,6 @@ const pageData = [
 const Discount = () => {
   const [total, setTotal] = useState<number>();
   const [discount, setDiscount] = useState<number>();
-  const { classes } = useStyles();
 
   const totalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTotal(Number(e.target.value));
@@ -76,61 +28,74 @@ const Discount = () => {
         description={pageData[0].description}
       />
       <Space h="xl" />
-      <Container>
-        <Grid columns={3} grow gutter="xl">
-          <Grid.Col sm={3} md={1}>
-            <Box className={classes.inputWrapper}>
-              <Box
-                className={classes.inputBox}
-                component="input"
-                onChange={totalChange}
-                placeholder="2700"
-                min={0}
-                type="number"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                title="Non-negative integral number"
-              />
 
-              <Text className={classes.inputDetail}>ราคาปกติ</Text>
-            </Box>
-          </Grid.Col>
-          <Grid.Col sm={3} md={1}>
-            <Box className={classes.inputWrapper}>
-              <Box
-                className={classes.inputBox}
-                component="input"
-                onChange={discountChange}
-                placeholder="20"
-                type="number"
-                inputMode="numeric"
-                min={0}
-                pattern="[0-9]*"
-                title="Non-negative integral number"
-              />
+      <Container
+        size="sm"
+        sx={(theme) => ({
+          boxShadow: theme.shadows.md,
+          borderRadius: theme.radius.sm,
+          paddingTop: theme.spacing.lg,
+          paddingBottom: theme.spacing.lg,
+          paddingLeft: theme.spacing.xl,
+          paddingRight: theme.spacing.xl,
+        })}
+      >
+        <TextInput
+          required
+          onChange={totalChange}
+          label="ราคาปกติ"
+          description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+          size="lg"
+          radius="md"
+          placeholder="กรอกราคาปกติ"
+          min={0}
+          type="number"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          title="Non-negative integral number"
+        />
+        <Space mt={30} />
 
-              <Text className={classes.inputDetail}>ส่วนลด %</Text>
-            </Box>
-          </Grid.Col>
-          {/* ถูกงี้ให้ฟรีเถอะ */}
-          <Grid.Col sm={3} md={2}>
-            <Box className={classes.inputWrapper}>
-              <Text className={classes.resultBox}>
-                {result.sumTotal > 0
-                  ? `ลดเหลือ ${result.sumTotal.toLocaleString()}`
-                  : ""}
-
-                {result.sumTotal < 0 && totalChange.length > 0
-                  ? "ถูกงี้ให้ฟรีเถอะ"
-                  : ""}
-
-                {result.sumTotal === NaN && totalChange.length !== 0
-                  ? "ถูกงี้ให้ฟรีเถอะ"
-                  : ""}
-              </Text>
-            </Box>
-          </Grid.Col>
-        </Grid>
+        <TextInput
+          required
+          onChange={discountChange}
+          label="ส่วนลด %"
+          description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+          size="lg"
+          radius="md"
+          placeholder="กรอกจำนวนที่ลดเป็น % เช่น หากลด 20% ให้กรอก 20"
+          min={0}
+          type="number"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          title="Non-negative integral number"
+        />
+        <Space mt={30} />
+        <TextInput
+          readOnly
+          value={result.total > 0 ? result.total : 0}
+          label="ลดเหลือ"
+          description="ผลลัพธ์หลังจากลดแล้ว"
+          size="lg"
+          radius="md"
+          min={0}
+          sx={(theme) => ({
+            ["input"]: {
+              borderColor:
+                theme.colorScheme === "light"
+                  ? result.total > 0
+                    ? theme.colors.blue[5]
+                    : theme.colors.gray[2]
+                  : result.total > 0
+                  ? theme.colors.blue[9]
+                  : theme.colors.gray[8],
+              borderWidth: theme.radius.xs,
+              ":focus": {
+                borderWidth: theme.radius.xs,
+              },
+            },
+          })}
+        />
       </Container>
     </>
   );

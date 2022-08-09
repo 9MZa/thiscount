@@ -8,8 +8,18 @@ interface PageHeroProps {
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    backgroundColor: theme.colors.indigo[5],
-    color: theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === "light"
+        ? theme.colors.blue[5]
+        : theme.colors.blue[9],
+    color:
+      theme.colorScheme === "light"
+        ? theme.colors.gray[0]
+        : theme.colors.gray[4],
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      paddingTop: 25,
+      paddingBottom: 25,
+    },
     paddingTop: 50,
     paddingBottom: 50,
     textAlign: "center",
@@ -17,6 +27,9 @@ const useStyles = createStyles((theme) => ({
 
   title: {
     fontSize: 60,
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      fontSize: 40,
+    },
   },
   description: {
     fontSize: theme.fontSizes.xl,

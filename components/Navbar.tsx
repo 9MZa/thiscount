@@ -2,17 +2,26 @@ import { useState } from "react";
 import {
   createStyles,
   Box,
+  Button,
   Container,
+  useMantineColorScheme,
   Title,
   Anchor,
   Burger,
   Drawer,
   Group,
   Stack,
+  Center,
+  ActionIcon,
+  Tooltip,
 } from "@mantine/core";
-import { Calculator } from "tabler-icons-react";
+import { Sun, Moon } from "tabler-icons-react";
+import Logo from "./Logo";
 
-const useStyles = createStyles((theme) => ({}));
+interface ToggleProps {
+  color: boolean;
+  toggle(): void;
+}
 
 const items = [
   { title: "ส่วนลดสินค้า", href: "/discount" },
@@ -23,7 +32,10 @@ const items = [
     href={item.href}
     sx={(theme) => ({
       fontWeight: 600,
-      color: theme.colors.gray[7],
+      color:
+        theme.colorScheme === "light"
+          ? theme.colors.gray[7]
+          : theme.colors.gray[5],
     })}
     key={index}
   >
@@ -31,89 +43,99 @@ const items = [
   </Anchor>
 ));
 
-const Navbar = ({}) => {
-  const { classes } = useStyles();
+const DarkLightButton = ({ color, toggle }: ToggleProps) => {
+  return (
+    <Tooltip label="Dark or Light" position="right">
+      <ActionIcon
+        variant="subtle"
+        onClick={() => toggle()}
+        title="Toggle color scheme"
+      >
+        {color ? <Sun size={24} /> : <Moon size={24} />}
+      </ActionIcon>
+    </Tooltip>
+  );
+};
+
+const DesktopNav = ({ color, toggle }: ToggleProps) => {
+  return (
+    <div>
+      <Box
+        sx={(theme) => ({
+          [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+            display: "none",
+          },
+          display: "flex",
+        })}
+      >
+        <Logo />
+        <Group
+          ml={50}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Group spacing={30}>{items}</Group>
+          <DarkLightButton color={color} toggle={toggle} />
+        </Group>
+      </Box>
+    </div>
+  );
+};
+
+const MobileNav = () => {
   const [opened, setOpened] = useState(false);
   const title = opened ? "Close navigation" : "Open navigation";
 
   return (
-    <Box
+    <Stack
       sx={(theme) => ({
-        boxShadow: theme.shadows.sm,
-        padding: theme.spacing.lg,
+        [theme.fn.largerThan("sm")]: { display: "none" },
       })}
     >
-      <Container
-        size="lg"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
-          <Box
-            sx={(theme) => ({
-              color: theme.colors.indigo[6],
-              display: "flex",
-            })}
-          >
-            <Calculator size={32} strokeWidth={2} />
-            <Anchor href="/">
-              <Title order={3}>iCalc</Title>
-            </Anchor>
-          </Box>
-          <Box
-            sx={(theme) => ({
-              marginLeft: 76,
-            })}
-          >
-            <Group
-              sx={(theme) => ({
-                [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-                  display: "none",
-                },
-              })}
-              spacing="xl"
-            >
-              {items}
-            </Group>
-          </Box>
-        </Box>
+      <Group sx={{ justifyContent: "space-between" }}>
+        <Logo />
         <Burger
           opened={opened}
           onClick={() => setOpened((o) => !o)}
           title={title}
+          size="md"
           sx={(theme) => ({
             [theme.fn.largerThan("sm")]: { display: "none" },
           })}
         />
-        <Drawer
-          opened={opened}
-          onClose={() => setOpened(false)}
-          title={
-            <Title align="center" order={3}>
-              iCalc
-            </Title>
-          }
-          padding="xl"
-          size="sm"
-          position="top"
-        >
-          <Stack
-            sx={(theme) => ({
-              flexDirection: "column",
-              display: "flex",
-              textAlign: "center",
-            })}
-          >
-            {items}
-          </Stack>
-        </Drawer>
+      </Group>
+      <Drawer
+        padding="xl"
+        size="sm"
+        position="top"
+        opened={opened}
+        onClose={() => setOpened(false)}
+      >
+        <Stack align="center" justify="flex-end" spacing="xl">
+          {items}
+        </Stack>
+      </Drawer>
+    </Stack>
+  );
+};
+
+const Navbar = ({}) => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
+
+  return (
+    <Box
+      sx={(theme) => ({
+        padding: theme.spacing.lg,
+      })}
+    >
+      <Container size="lg">
+        <DesktopNav color={dark} toggle={toggleColorScheme} />
       </Container>
+      <MobileNav />
     </Box>
   );
 };

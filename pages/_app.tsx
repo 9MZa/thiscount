@@ -2,7 +2,6 @@ import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import { AppProps } from "next/app";
 import { getCookie, setCookies } from "cookies-next";
-import Head from "next/head";
 import {
   MantineProvider,
   ColorScheme,
@@ -26,15 +25,6 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
   return (
     <>
-      <Head>
-        <title>This Count: ของชิ้นนี้ลดเท่าไหร่กันนะ 🤔</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-        <link rel="shortcut icon" href="/favicon.svg" />
-      </Head>
-
       <ColorSchemeProvider
         colorScheme={colorScheme}
         toggleColorScheme={toggleColorScheme}
@@ -42,8 +32,6 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <MantineProvider
           theme={{
             colorScheme,
-            primaryColor: "indigo",
-            primaryShade: 5,
             headings: {
               fontFamily: "IBM Plex Sans Thai, sans-serif",
             },

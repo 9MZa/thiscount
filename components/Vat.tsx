@@ -33,7 +33,6 @@ const useStyles = createStyles((theme, _params) => ({
 const pageData = [{ title: "VAT", description: "คำนวณภาษีมูลค่าเพิ่ม" }];
 
 const Vat = () => {
-  // const { classes } = useStyles();
   const [incValue, setIncValue] = useState<number>(0);
   const [excValue, setExcValue] = useState<number>(0);
 
@@ -48,7 +47,7 @@ const Vat = () => {
   }
 
   return (
-    <Layout>
+    <>
       <PageHero
         title={pageData[0].title}
         description={pageData[0].description}
@@ -94,7 +93,6 @@ const Vat = () => {
               />
               <Space mt={30} />
               <TextInput
-                required
                 readOnly
                 defaultValue={7}
                 label="VAT 7%"
@@ -134,7 +132,6 @@ const Vat = () => {
               />
               <Space mt={30} />
               <TextInput
-                required
                 readOnly
                 defaultValue={7}
                 label="VAT 7%"
@@ -156,7 +153,7 @@ const Vat = () => {
           </Tabs.Panel>
         </Tabs>
       </Container>
-    </Layout>
+    </>
   );
 };
 

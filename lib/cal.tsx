@@ -3,9 +3,9 @@ export const DiscountCalculate = (total: number, discount: number) => {
   const getTotal = total - getDiscount;
 
   const result = {
-    total: total,
+    normal: total,
     discount: getDiscount,
-    sumTotal: getTotal,
+    total: getTotal,
   };
 
   return result;
