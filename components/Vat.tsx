@@ -2,12 +2,15 @@ import React, { useRef, useState } from "react";
 import Layout from "../components/Layout";
 import {
   Space,
-  Text,
+  Button,
+  Checkbox,
   Tabs,
   Paper,
   TextInput,
   createStyles,
   Container,
+  Group,
+  Center,
 } from "@mantine/core";
 import { CurrencyBaht } from "tabler-icons-react";
 import PageHero from "../components/PageHero";
@@ -35,6 +38,8 @@ const pageData = [{ title: "VAT", description: "คำนวณภาษีม�
 const Vat = () => {
   const [incValue, setIncValue] = useState<number>(0);
   const [excValue, setExcValue] = useState<number>(0);
+  const [chkBox, setChkBox] = useState<boolean>(false);
+  const [vat, setVat] = useState<number>(7);
 
   function handleInc(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault;
@@ -44,6 +49,11 @@ const Vat = () => {
   function handleExc(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault;
     setExcValue(Number(e.target.value));
+  }
+
+  function handleVat(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault;
+    setVat(Number(e.target.value));
   }
 
   return (
@@ -92,14 +102,32 @@ const Vat = () => {
                 title="Non-negative integral number"
               />
               <Space mt={30} />
-              <TextInput
-                readOnly
-                defaultValue={7}
-                label="VAT 7%"
-                description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                size="lg"
-                radius="md"
-                type="number"
+              <Group grow>
+                <TextInput
+                  readOnly={!chkBox}
+                  defaultValue={vat}
+                  onChange={handleVat}
+                  label="VAT 7%"
+                  description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                  size="lg"
+                  radius="md"
+                  type="number"
+                />
+                <TextInput
+                  readOnly
+                  value={(IncVatCalculate(incValue, vat) - incValue).toFixed(2)}
+                  label="VAT เป็นจำนวน"
+                  description="ส่วนต่างหลังจากที่คำนวณ VAT"
+                  size="lg"
+                  radius="md"
+                  type="number"
+                />
+              </Group>
+              <Space mt={10} />
+              <Checkbox
+                checked={chkBox}
+                onChange={(event) => setChkBox(event.currentTarget.checked)}
+                label="แก้ไข % VAT"
               />
               <Space mt={30} />
               <TextInput
@@ -108,7 +136,7 @@ const Vat = () => {
                 description="ผลลัพธ์หลังรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
                 size="lg"
                 radius="md"
-                value={IncVatCalculate(incValue)}
+                value={IncVatCalculate(incValue, vat)}
               />
             </Paper>
           </Tabs.Panel>
@@ -151,6 +179,10 @@ const Vat = () => {
               />
             </Paper>
           </Tabs.Panel>
+          <Center>
+            <Space my={40} />
+            <Button onClick={() => window.location.reload()}>Reset</Button>
+          </Center>
         </Tabs>
       </Container>
     </>
