@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DiscountCalculate } from "../lib/cal";
-import { TextInput, Paper, Space, Container } from "@mantine/core";
+import { TextInput, Button, Space, Container, Center } from "@mantine/core";
 import PageHero from "./PageHero";
 
 const pageData = [
@@ -19,6 +19,11 @@ const Discount = () => {
     setDiscount(Number(e.target.value));
   };
 
+  const defaultValue = () => {
+    setDiscount(() => 0);
+    setTotal(() => 0);
+  };
+
   let result = DiscountCalculate(Number(total), Number(discount));
 
   return (
@@ -28,7 +33,6 @@ const Discount = () => {
         description={pageData[0].description}
       />
       <Space h="xl" />
-
       <Container
         size="sm"
         sx={(theme) => ({
@@ -40,62 +44,70 @@ const Discount = () => {
           paddingRight: theme.spacing.xl,
         })}
       >
-        <TextInput
-          required
-          onChange={totalChange}
-          label="ราคาปกติ"
-          description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
-          size="lg"
-          radius="md"
-          placeholder="กรอกราคาปกติ"
-          min={0}
-          type="number"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          title="Non-negative integral number"
-        />
-        <Space mt={30} />
+        <form>
+          <TextInput
+            required
+            onChange={totalChange}
+            label="ราคาปกติ"
+            description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+            size="lg"
+            radius="md"
+            placeholder="กรอกราคาปกติ"
+            min={0}
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            title="Non-negative integral number"
+          />
+          <Space mt={30} />
 
-        <TextInput
-          required
-          onChange={discountChange}
-          label="ส่วนลด %"
-          description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
-          size="lg"
-          radius="md"
-          placeholder="กรอกจำนวนที่ลดเป็น % เช่น หากลด 20% ให้กรอก 20"
-          min={0}
-          type="number"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          title="Non-negative integral number"
-        />
-        <Space mt={30} />
-        <TextInput
-          readOnly
-          value={result.total > 0 ? result.total : 0}
-          label="ลดเหลือ"
-          description="ผลลัพธ์หลังจากลดแล้ว"
-          size="lg"
-          radius="md"
-          min={0}
-          sx={(theme) => ({
-            ["input"]: {
-              borderColor:
-                theme.colorScheme === "light"
-                  ? result.total > 0
-                    ? theme.colors.blue[5]
-                    : theme.colors.gray[2]
-                  : result.total > 0
-                  ? theme.colors.blue[9]
-                  : theme.colors.gray[8],
-              borderWidth: theme.radius.xs,
-              ":focus": {
+          <TextInput
+            required
+            onChange={discountChange}
+            label="ส่วนลด %"
+            description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+            size="lg"
+            radius="md"
+            placeholder="กรอกจำนวนที่ลดเป็น % เช่น หากลด 20% ให้กรอก 20"
+            min={0}
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            title="Non-negative integral number"
+          />
+          <Space mt={30} />
+          <TextInput
+            readOnly
+            value={result.total > 0 ? result.total : 0}
+            label="ลดเหลือ"
+            description="ผลลัพธ์หลังจากลดแล้ว"
+            size="lg"
+            radius="md"
+            min={0}
+            sx={(theme) => ({
+              ["input"]: {
+                borderColor:
+                  theme.colorScheme === "light"
+                    ? result.total > 0
+                      ? theme.colors.blue[5]
+                      : theme.colors.gray[2]
+                    : result.total > 0
+                    ? theme.colors.blue[9]
+                    : theme.colors.gray[8],
                 borderWidth: theme.radius.xs,
+                ":focus": {
+                  borderWidth: theme.radius.xs,
+                },
               },
-            },
-          })}
-        />
+            })}
+          />
+          <Space h={20} />
+          <Center>
+            <Button type="reset" onClick={defaultValue}>
+              Reset
+            </Button>
+          </Center>
+        </form>
       </Container>
     </>
   );
