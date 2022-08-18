@@ -35,7 +35,7 @@ const VATDetail = () => {
           </Text>
           <Text component="li">
             <b>VAT ใน</b>&nbsp;หรือ
-            <b>&nbsp;VAT คำนวณรวมกับราคาสินค้า&nbsp;(Including vat)&nbsp;</b>
+            <b>&nbsp;VAT คำนวณรวมกับราคาสินค้า&nbsp;(Including VAT)&nbsp;</b>
             คือ ราคาสินค้าที่แสดงไว้ได้บวกภาษีมูลค่าเพิ่มไว้แล้ว
             ไม่ต้องจ่ายเพิ่มจากป้าย
           </Text>
@@ -104,7 +104,7 @@ const Vat = () => {
               <TextInput
                 required
                 onChange={handleExc}
-                label="exclude"
+                label="Excluding VAT"
                 description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
                 size="lg"
                 radius="md"
@@ -162,7 +162,7 @@ const Vat = () => {
               <TextInput
                 required
                 onChange={handleInc}
-                label="รวม VAT"
+                label="Including VAT"
                 description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
                 size="lg"
                 radius="md"
