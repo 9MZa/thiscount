@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import Layout from "../components/Layout";
+import React, { useState } from "react";
 import {
   Space,
   Button,
@@ -7,31 +6,44 @@ import {
   Tabs,
   Paper,
   TextInput,
-  createStyles,
   Container,
   Group,
   Center,
+  Text,
+  Stack,
 } from "@mantine/core";
 import { CurrencyBaht } from "tabler-icons-react";
 import PageHero from "../components/PageHero";
 import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
 
-const useStyles = createStyles((theme, _params) => ({
-  inputBox: {
-    padding: theme.spacing.xl,
-    boxShadow: theme.shadows.lg,
-  },
-  result: {
-    backgroundColor: theme.colors.blue[0],
-    border: "1px solid",
-    borderColor: theme.colors.blue[1],
-    fontSize: 50,
-    borderRadius: theme.radius.sm,
-    color: theme.colors.blue[6],
-    textAlign: "center",
-    fontWeight: 500,
-  },
-}));
+const VATDetail = () => {
+  return (
+    <Container size="sm">
+      <Paper>
+        <Stack
+          sx={(theme) => ({
+            color:
+              theme.colorScheme === "light"
+                ? theme.colors.gray[7]
+                : theme.colors.gray[6],
+          })}
+        >
+          <Text component="li">
+            <b>VAT นอก</b>&nbsp;หรือ&nbsp;
+            <b>VAT คำนวณแยกกับราคาสินค้า (Excluding VAT)</b>
+            &nbsp;คือ ราคาสินค้าที่แสดงไว้ยังไม่รวมภาษีมูลค่าเพิ่ม
+          </Text>
+          <Text component="li">
+            <b>VAT ใน</b>&nbsp;หรือ
+            <b>&nbsp;VAT คำนวณรวมกับราคาสินค้า&nbsp;(Including vat)&nbsp;</b>
+            คือ ราคาสินค้าที่แสดงไว้ได้บวกภาษีมูลค่าเพิ่มไว้แล้ว
+            ไม่ต้องจ่ายเพิ่มจากป้าย
+          </Text>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+};
 
 const pageData = [{ title: "VAT", description: "คำนวณภาษีมูลค่าเพิ่ม" }];
 
@@ -62,6 +74,8 @@ const Vat = () => {
         title={pageData[0].title}
         description={pageData[0].description}
       />
+      <Space mt={30} />
+      <VATDetail />
       <Container
         mt={30}
         size="sm"
@@ -74,27 +88,27 @@ const Vat = () => {
           paddingRight: theme.spacing.xl,
         })}
       >
-        <Tabs defaultValue="include" color="primary">
+        <Tabs defaultValue="exclude" color="primary">
           <Tabs.List grow>
-            <Tabs.Tab value="include" icon={<CurrencyBaht size={14} />}>
-              รวม VAT
-            </Tabs.Tab>
             <Tabs.Tab value="exclude" icon={<CurrencyBaht size={14} />}>
-              ถอด VAT
+              VAT นอก
+            </Tabs.Tab>
+            <Tabs.Tab value="include" icon={<CurrencyBaht size={14} />}>
+              VAT ใน
             </Tabs.Tab>
           </Tabs.List>
 
-          {/* include VAT */}
-          <Tabs.Panel value="include" pt="xs">
+          {/* exclude VAT */}
+          <Tabs.Panel value="exclude" pt="xs">
             <Paper>
               <TextInput
                 required
-                onChange={handleInc}
-                label="ก่อน VAT"
+                onChange={handleExc}
+                label="exclude"
                 description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
                 size="lg"
                 radius="md"
-                placeholder="กรอกจำนวนก่อน VAT"
+                placeholder="กรอกจำนวน"
                 min={0}
                 type="number"
                 inputMode="numeric"
@@ -115,8 +129,8 @@ const Vat = () => {
                 />
                 <TextInput
                   readOnly
-                  value={(IncVatCalculate(incValue, vat) - incValue).toFixed(2)}
-                  label="VAT เป็นจำนวน"
+                  value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
+                  label="ส่วนต่าง"
                   description="ส่วนต่างหลังจากที่คำนวณ VAT"
                   size="lg"
                   radius="md"
@@ -124,11 +138,12 @@ const Vat = () => {
                 />
               </Group>
               <Space mt={10} />
-              <Checkbox
+              {/* <Checkbox
                 checked={chkBox}
+                disabled
                 onChange={(event) => setChkBox(event.currentTarget.checked)}
                 label="แก้ไข % VAT"
-              />
+              /> */}
               <Space mt={30} />
               <TextInput
                 readOnly
@@ -136,17 +151,17 @@ const Vat = () => {
                 description="ผลลัพธ์หลังรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
                 size="lg"
                 radius="md"
-                value={IncVatCalculate(incValue, vat)}
+                value={ExcVatCalculate(excValue)}
               />
             </Paper>
           </Tabs.Panel>
 
-          {/* exclude VAT */}
-          <Tabs.Panel value="exclude" pt="xs">
+          {/* include VAT */}
+          <Tabs.Panel value="include" pt="xs">
             <Paper>
               <TextInput
                 required
-                onChange={handleExc}
+                onChange={handleInc}
                 label="รวม VAT"
                 description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
                 size="lg"
@@ -159,15 +174,26 @@ const Vat = () => {
                 title="Non-negative integral number"
               />
               <Space mt={30} />
-              <TextInput
-                readOnly
-                defaultValue={7}
-                label="VAT 7%"
-                description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                size="lg"
-                radius="md"
-                type="number"
-              />
+              <Group grow>
+                <TextInput
+                  readOnly
+                  defaultValue={7}
+                  label="VAT 7%"
+                  description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                  size="lg"
+                  radius="md"
+                  type="number"
+                />
+                <TextInput
+                  readOnly
+                  value={(incValue - IncVatCalculate(incValue)).toFixed(2)}
+                  label="ส่วนต่าง"
+                  description="ส่วนต่างหลังจากที่คำนวณ VAT"
+                  size="lg"
+                  radius="md"
+                  type="number"
+                />
+              </Group>
               <Space mt={30} />
               <TextInput
                 readOnly
@@ -175,7 +201,7 @@ const Vat = () => {
                 description="ผลลัพธ์ก่อนรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
                 size="lg"
                 radius="md"
-                value={ExcVatCalculate(excValue)}
+                value={IncVatCalculate(incValue)}
               />
             </Paper>
           </Tabs.Panel>
