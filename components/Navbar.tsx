@@ -51,7 +51,7 @@ const DarkLightButton = ({ color, toggle }: ToggleProps) => {
         onClick={() => toggle()}
         title="Toggle color scheme"
       >
-        {color ? <Sun size={24} /> : <Moon size={24} />}
+        {!color ? <Sun size={24} /> : <Moon size={24} />}
       </ActionIcon>
     </Tooltip>
   );
@@ -85,7 +85,7 @@ const DesktopNav = ({ color, toggle }: ToggleProps) => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ color, toggle }: ToggleProps) => {
   const [opened, setOpened] = useState(false);
   const title = opened ? "Close navigation" : "Open navigation";
 
@@ -110,12 +110,13 @@ const MobileNav = () => {
       <Drawer
         padding="xl"
         size="sm"
-        position="top"
+        position="right"
         opened={opened}
         onClose={() => setOpened(false)}
       >
         <Stack align="center" justify="flex-end" spacing="xl">
           {items}
+          <DarkLightButton color={color} toggle={toggle} />
         </Stack>
       </Drawer>
     </Stack>
@@ -135,7 +136,7 @@ const Navbar = ({}) => {
       <Container size="lg">
         <DesktopNav color={dark} toggle={toggleColorScheme} />
       </Container>
-      <MobileNav />
+      <MobileNav color={dark} toggle={toggleColorScheme} />
     </Box>
   );
 };
