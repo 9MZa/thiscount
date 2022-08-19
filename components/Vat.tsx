@@ -11,10 +11,12 @@ import {
   Center,
   Text,
   Stack,
+  Grid,
 } from "@mantine/core";
 import { CurrencyBaht } from "tabler-icons-react";
 import PageHero from "../components/PageHero";
 import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
+import { useMediaQuery } from "@mantine/hooks";
 
 const VATDetail = () => {
   return (
@@ -52,6 +54,7 @@ const Vat = () => {
   const [excValue, setExcValue] = useState<number>(0);
   const [chkBox, setChkBox] = useState<boolean>(false);
   const [vat, setVat] = useState<number>(7);
+  const maxWidth600 = useMediaQuery("(max-width: 600px)");
 
   function handleInc(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault;
@@ -113,27 +116,31 @@ const Vat = () => {
                 type="number"
               />
               <Space mt={30} />
-              <Group grow>
-                <TextInput
-                  readOnly={!chkBox}
-                  defaultValue={vat}
-                  onChange={handleVat}
-                  label="VAT 7%"
-                  description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                  size="lg"
-                  radius="md"
-                  type="number"
-                />
-                <TextInput
-                  readOnly
-                  value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
-                  label="ส่วนต่าง"
-                  description="ส่วนต่างหลังจากที่คำนวณ VAT"
-                  size="lg"
-                  radius="md"
-                  type="number"
-                />
-              </Group>
+              <Grid grow>
+                <Grid.Col span={maxWidth600 ? 12 : 6}>
+                  <TextInput
+                    readOnly={!chkBox}
+                    defaultValue={vat}
+                    onChange={handleVat}
+                    label="VAT 7%"
+                    description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                    size="lg"
+                    radius="md"
+                    type="number"
+                  />
+                </Grid.Col>
+                <Grid.Col span={maxWidth600 ? 12 : 6}>
+                  <TextInput
+                    readOnly
+                    value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
+                    label="ส่วนต่าง"
+                    description="ส่วนต่างหลังจากที่คำนวณ VAT"
+                    size="lg"
+                    radius="md"
+                    type="number"
+                  />
+                </Grid.Col>
+              </Grid>
               <Space mt={10} />
               {/* <Checkbox
                 checked={chkBox}
