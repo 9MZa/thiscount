@@ -112,7 +112,7 @@ const Vat = () => {
                 min={0}
                 type="number"
                 inputMode="numeric"
-                // pattern="[0-9]*"
+                pattern="[0-9.]*"
                 title="Non-negative integral number"
               />
               <Space mt={30} />
@@ -170,7 +170,7 @@ const Vat = () => {
                 min={0}
                 type="number"
                 inputMode="numeric"
-                // pattern="[0-9]*"
+                pattern="[0-9.]*"
                 title="Non-negative integral number"
               />
               <Space mt={30} />
