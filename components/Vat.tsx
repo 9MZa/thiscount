@@ -111,9 +111,6 @@ const Vat = () => {
                 placeholder="กรอกจำนวน"
                 min={0}
                 type="number"
-                inputMode="numeric"
-                pattern="[0-9.]*"
-                title="Non-negative integral number"
               />
               <Space mt={30} />
               <Group grow>
@@ -169,9 +166,6 @@ const Vat = () => {
                 placeholder="กรอกจำนวนรวม VAT"
                 min={0}
                 type="number"
-                inputMode="numeric"
-                pattern="[0-9.]*"
-                title="Non-negative integral number"
               />
               <Space mt={30} />
               <Group grow>
