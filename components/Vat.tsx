@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import {
   Space,
   Button,
-  Checkbox,
   Tabs,
   Paper,
   TextInput,
   Container,
-  Group,
   Center,
   Text,
   Stack,
   Grid,
 } from "@mantine/core";
-import { CurrencyBaht } from "tabler-icons-react";
+import { CurrencyBaht, Refresh } from "tabler-icons-react";
 import PageHero from "../components/PageHero";
 import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
 
@@ -51,8 +49,7 @@ const pageData = [{ title: "VAT", description: "คำนวณภาษีม�
 const Vat = () => {
   const [incValue, setIncValue] = useState<number>(0);
   const [excValue, setExcValue] = useState<number>(0);
-  const [chkBox, setChkBox] = useState<boolean>(false);
-  const [vat, setVat] = useState<number>(7);
+  const vat: number = 7;
 
   function handleInc(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault;
@@ -64,9 +61,9 @@ const Vat = () => {
     setExcValue(Number(e.target.value));
   }
 
-  function handleVat(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault;
-    setVat(Number(e.target.value));
+  function resetValues() {
+    setExcValue(0);
+    setIncValue(0);
   }
 
   return (
@@ -102,116 +99,129 @@ const Vat = () => {
           {/* exclude VAT */}
           <Tabs.Panel value="exclude" pt="xs">
             <Paper>
-              <TextInput
-                required
-                onChange={handleExc}
-                label="Excluding VAT"
-                description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
-                size="lg"
-                radius="md"
-                placeholder="กรอกจำนวน"
-                min={0}
-                type="number"
-              />
-              <Space mt={30} />
-              <Grid grow>
-                <Grid.Col sm={6}>
-                  <TextInput
-                    readOnly={!chkBox}
-                    defaultValue={vat}
-                    onChange={handleVat}
-                    label="VAT 7%"
-                    description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                    size="lg"
-                    radius="md"
-                    type="number"
-                  />
-                </Grid.Col>
-                <Grid.Col sm={6}>
-                  <TextInput
-                    readOnly
-                    value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
-                    label="ส่วนต่าง"
-                    description="ส่วนต่างหลังจากที่คำนวณ VAT"
-                    size="lg"
-                    radius="md"
-                    type="number"
-                  />
-                </Grid.Col>
-              </Grid>
-              <Space mt={10} />
-              {/* <Checkbox
-                checked={chkBox}
-                disabled
-                onChange={(event) => setChkBox(event.currentTarget.checked)}
-                label="แก้ไข % VAT"
-              /> */}
-              <Space mt={30} />
-              <TextInput
-                readOnly
-                label="รวม VAT"
-                description="ผลลัพธ์หลังรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                size="lg"
-                radius="md"
-                value={ExcVatCalculate(excValue)}
-              />
+              <form>
+                <TextInput
+                  required
+                  onChange={handleExc}
+                  label="Excluding VAT"
+                  description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+                  size="lg"
+                  radius="md"
+                  placeholder="กรอกจำนวน"
+                  min={0}
+                  type="number"
+                />
+                <Space mt={30} />
+                <Grid grow>
+                  <Grid.Col sm={6}>
+                    <TextInput
+                      readOnly
+                      defaultValue={vat}
+                      label="VAT 7%"
+                      description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                      size="lg"
+                      radius="md"
+                      type="number"
+                    />
+                  </Grid.Col>
+                  <Grid.Col sm={6}>
+                    <TextInput
+                      readOnly
+                      value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
+                      label="ส่วนต่าง"
+                      description="ส่วนต่างหลังจากที่คำนวณ VAT"
+                      size="lg"
+                      radius="md"
+                      type="number"
+                    />
+                  </Grid.Col>
+                </Grid>
+                <Space mt={10} />
+                <Space mt={30} />
+                <TextInput
+                  readOnly
+                  label="รวม VAT"
+                  description="ผลลัพธ์หลังรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                  size="lg"
+                  radius="md"
+                  value={ExcVatCalculate(excValue)}
+                />
+                <Center>
+                  <Space my={40} />
+                  <Button
+                    leftIcon={<Refresh size={18} />}
+                    type="reset"
+                    onClick={resetValues}
+                  >
+                    Reset
+                  </Button>
+                </Center>
+              </form>
             </Paper>
           </Tabs.Panel>
 
           {/* include VAT */}
           <Tabs.Panel value="include" pt="xs">
             <Paper>
-              <TextInput
-                required
-                onChange={handleInc}
-                label="Including VAT"
-                description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
-                size="lg"
-                radius="md"
-                placeholder="กรอกจำนวนรวม VAT"
-                min={0}
-                type="number"
-              />
-              <Space mt={30} />
-              <Grid grow>
-                <Grid.Col sm={6}>
-                  <TextInput
-                    readOnly
-                    defaultValue={7}
-                    label="VAT 7%"
-                    description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                    size="lg"
-                    radius="md"
-                    type="number"
-                  />
-                </Grid.Col>
-                <Grid.Col sm={6}>
-                  <TextInput
-                    readOnly
-                    value={(incValue - IncVatCalculate(incValue)).toFixed(2)}
-                    label="ส่วนต่าง"
-                    description="ส่วนต่างหลังจากที่คำนวณ VAT"
-                    size="lg"
-                    radius="md"
-                    type="number"
-                  />
-                </Grid.Col>
-              </Grid>
-              <Space mt={30} />
-              <TextInput
-                readOnly
-                label="ก่อน VAT"
-                description="ผลลัพธ์ก่อนรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
-                size="lg"
-                radius="md"
-                value={IncVatCalculate(incValue)}
-              />
+              <form>
+                <TextInput
+                  required
+                  onChange={handleInc}
+                  label="Including VAT"
+                  description="กรอกจำนวนด้วยตัวเลขเท่านั้น"
+                  size="lg"
+                  radius="md"
+                  placeholder="กรอกจำนวนรวม VAT"
+                  min={0}
+                  type="number"
+                />
+                <Space mt={30} />
+                <Grid grow>
+                  <Grid.Col sm={6}>
+                    <TextInput
+                      readOnly
+                      defaultValue={7}
+                      label="VAT 7%"
+                      description="จำนวน VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                      size="lg"
+                      radius="md"
+                      type="number"
+                    />
+                  </Grid.Col>
+                  <Grid.Col sm={6}>
+                    <TextInput
+                      readOnly
+                      value={(incValue - IncVatCalculate(incValue)).toFixed(2)}
+                      label="ส่วนต่าง"
+                      description="ส่วนต่างหลังจากที่คำนวณ VAT"
+                      size="lg"
+                      radius="md"
+                      type="number"
+                    />
+                  </Grid.Col>
+                </Grid>
+                <Space mt={30} />
+                <TextInput
+                  readOnly
+                  label="ก่อน VAT"
+                  description="ผลลัพธ์ก่อนรวม VAT (ไม่สามารถแก้ไขจำนวนได้)"
+                  size="lg"
+                  radius="md"
+                  value={IncVatCalculate(incValue)}
+                />
+                <Center>
+                  <Space my={40} />
+                  <Button
+                    leftIcon={<Refresh size={18} />}
+                    type="reset"
+                    onClick={resetValues}
+                  >
+                    Reset
+                  </Button>
+                </Center>
+              </form>
             </Paper>
           </Tabs.Panel>
-          <Center>
-            <Space my={40} />
-            <Button onClick={() => window.location.reload()}>Reset</Button>
-          </Center>
         </Tabs>
       </Container>
     </>
