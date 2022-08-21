@@ -1,5 +1,5 @@
 import React from "react";
-import { TriangleSquareCircle } from "tabler-icons-react";
+import { Category2 } from "tabler-icons-react";
 import { Anchor, Title, createStyles, ThemeIcon } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -23,7 +23,7 @@ const Logo = () => {
   return (
     <div className={classes.Wrapper}>
       <ThemeIcon radius="xl" size="xl">
-        <TriangleSquareCircle />
+        <Category2 />
       </ThemeIcon>
       <Anchor href="/" className={classes.TextLogo}>
         <Title order={3}>iCalc</Title>
