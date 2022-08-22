@@ -26,7 +26,7 @@ interface ToggleProps {
 const items = [
   { title: "ส่วนลดสินค้า", href: "/discount" },
   { title: "ภาษีมูลค่าเพิ่ม (VAT)", href: "/vat" },
-  // { title: "แปลงเซนติเมตรเป็นนิ้ว ", href: "#" },
+  { title: "แปลงหน่วย", href: "/cm-inch" },
 ].map((item, index) => (
   <Anchor
     href={item.href}
