@@ -25,15 +25,16 @@ const CMInches = () => {
       />
       <Space h="xl" />
       <Container size="sm">
-        <Tabs defaultValue="cm">
-          <Tabs.List grow>
-            <Tabs.Tab value="cm">Centimeters to Inches</Tabs.Tab>
-            <Tabs.Tab value="inches">Inches to Centimeters</Tabs.Tab>
-          </Tabs.List>
+        <Paper shadow="xs" p="xl">
+          <Tabs defaultValue="cm">
+            <Tabs.List grow>
+              <Tabs.Tab value="cm">Centimeters to Inches</Tabs.Tab>
+              <Tabs.Tab value="inches">Inches to Centimeters</Tabs.Tab>
+            </Tabs.List>
+            <Space my={14} />
 
-          {/* Centimeters */}
-          <Tabs.Panel value="cm">
-            <Paper shadow="xs" p="xl">
+            {/* Centimeters */}
+            <Tabs.Panel value="cm">
               <form>
                 <Input.Wrapper
                   size="lg"
@@ -65,12 +66,10 @@ const CMInches = () => {
                   />
                 </Input.Wrapper>
               </form>
-            </Paper>
-          </Tabs.Panel>
+            </Tabs.Panel>
 
-          {/* Inch */}
-          <Tabs.Panel value="inches">
-            <Paper shadow="xs" p="xl">
+            {/* Inch */}
+            <Tabs.Panel value="inches">
               <form>
                 <Input.Wrapper
                   size="lg"
@@ -102,9 +101,9 @@ const CMInches = () => {
                   />
                 </Input.Wrapper>
               </form>
-            </Paper>
-          </Tabs.Panel>
-        </Tabs>
+            </Tabs.Panel>
+          </Tabs>
+        </Paper>
       </Container>
     </>
   );
