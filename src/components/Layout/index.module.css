@@ -1,0 +1,22 @@
+.logo {
+  color: var(--mantine-color-blue-5);
+  text-decoration: none;
+}
+
+.nav {
+  display: block;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-radius: var(--mantine-radius-md);
+  font-weight: 500;
+}
+
+.nav {
+  font-size: var(--mantine-font-size-lg);
+  text-decoration: none;
+  color: var(--mantine-color-gray-7);
+}
+
+/* a aria-current="page" */
+.nav[aria-current="page"] {
+  color: var(--mantine-color-blue-5);
+}
