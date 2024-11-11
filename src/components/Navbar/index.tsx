@@ -1,7 +1,7 @@
 import classes from "./index.module.css";
 import { Logo } from "../Logo";
-import { Group, Burger, Container } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Group, Burger, Container, Drawer, Stack } from "@mantine/core";
 
 const links = [
   { link: "/discount/index.html", label: "ส่วนลดสินค้า" },
@@ -10,7 +10,7 @@ const links = [
 ];
 
 export const Navbar = () => {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const items = links.map((link) => {
     return (
@@ -28,9 +28,12 @@ export const Navbar = () => {
           <Group gap={10} visibleFrom="sm">
             {items}
           </Group>
-          <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
+          <Burger opened={opened} onClick={open} size="sm" hiddenFrom="sm" />
         </div>
       </Container>
+      <Drawer opened={opened} onClose={close} position="right">
+        <Stack gap={10}>{items}</Stack>
+      </Drawer>
     </header>
   );
 };
