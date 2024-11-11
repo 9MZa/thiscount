@@ -1,35 +1,30 @@
-// import React from "react";
-// import { Category2 } from "tabler-icons-react";
-// import { Anchor, Title, createStyles, ThemeIcon } from "@mantine/core";
+import { Box } from "@mantine/core";
+import { TablerCategory2Icon } from "./TablerCategory2";
 
-// const useStyles = createStyles((theme) => ({
-//   Wrapper: {
-//     display: "flex",
-//     alignItems: "center",
-//     cursor: "pointer",
-//   },
-//   TextLogo: {
-//     color:
-//       theme.colorScheme === "light"
-//         ? theme.colors.gray[8]
-//         : theme.colors.gray[4],
-//     marginLeft: theme.spacing.xs,
-//   },
-// }));
-
-// const Logo = () => {
-//   const { classes } = useStyles();
-
-//   return (
-//     <div className={classes.Wrapper}>
-//       <ThemeIcon radius="xl" size="xl">
-//         <Category2 />
-//       </ThemeIcon>
-//       <Anchor href="/" className={classes.TextLogo}>
-//         <Title order={3}>iCalc</Title>
-//       </Anchor>
-//     </div>
-//   );
-// };
-
-// export default Logo;
+export const Logo = () => {
+  return (
+    <>
+      <Box
+        component="a"
+        href="/"
+        color="blue"
+        style={{
+          cursor: "pointer",
+          backgroundColor: "var(--mantine-color-blue-6)",
+          height: "40px",
+          width: "40px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "50%",
+        }}
+      >
+        <TablerCategory2Icon
+          width={26}
+          height={26}
+          color="var(--mantine-color-white)"
+        />
+      </Box>
+    </>
+  );
+};

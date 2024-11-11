@@ -9,9 +9,9 @@
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
+    "@fontsource/noto-sans-thai": "^5.1.0",
     "@mantine/core": "^7.13.5",
     "@mantine/hooks": "^7.13.5",
-    "@mantine/vanilla-extract": "^7.13.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0"
@@ -21,6 +21,9 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^4.3.3",
+    "postcss": "^8.4.48",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.10"
   }
