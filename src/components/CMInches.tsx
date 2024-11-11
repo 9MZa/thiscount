@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Input, Space, Paper, Tabs } from "@mantine/core";
-import PageHero from "./PageHero";
+import { PageHero } from "./PageHero";
 import { CentimetersToInches, InchesToCentimeters } from "../lib/cal";
 
-const CMInches = () => {
+export const CMInchesDetail = () => {
   const [centimeters, setCentimeters] = useState<number>();
   const [inches, setInches] = useState<number>();
 
@@ -24,7 +24,7 @@ const CMInches = () => {
         description="แปลงเซนติเมตรเป็นนิ้วหรือแปลงนิ้วเป็นเซนติเมตร"
       />
       <Space h="xl" />
-      <Container size="sm">
+      <Container size="md">
         <Paper shadow="xs" p="xl">
           <Tabs defaultValue="cm">
             <Tabs.List grow>
@@ -54,7 +54,6 @@ const CMInches = () => {
                 <Input.Wrapper
                   label="Inches (in)"
                   size="lg"
-                  placeholder="จำนวนนิ้ว"
                   description="ไม่สามารถแก้ไขได้"
                 >
                   <Input
@@ -75,7 +74,6 @@ const CMInches = () => {
                   size="lg"
                   label="Inches (in)"
                   description="กรอกจำนวนนิ้ว"
-                  placeholder="จำนวนนิ้ว"
                   required
                 >
                   <Input
@@ -108,5 +106,3 @@ const CMInches = () => {
     </>
   );
 };
-
-export default CMInches;

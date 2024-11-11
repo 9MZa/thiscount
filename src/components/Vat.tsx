@@ -11,42 +11,47 @@ import {
   Stack,
   Grid,
 } from "@mantine/core";
-import { CurrencyBaht, Refresh } from "tabler-icons-react";
-import PageHero from "../components/PageHero";
-import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
 
-const VATDetail = () => {
+import { IncVatCalculate, ExcVatCalculate } from "../lib/cal";
+import { PageHero } from "./PageHero";
+
+export const VATDescription = () => {
   return (
-    <Container size="sm">
-      <Paper>
-        <Stack
-          sx={(theme) => ({
-            color:
-              theme.colorScheme === "light"
-                ? theme.colors.gray[7]
-                : theme.colors.gray[6],
-          })}
+    <Paper
+      my={20}
+      style={{
+        fontFamily: "Noto Sans Thai, sans-serif",
+      }}
+    >
+      <Stack>
+        <Text
+          component="li"
+          style={{
+            fontSize: "var(--mantine-font-size-lg)",
+          }}
         >
-          <Text component="li">
-            <b>VAT นอก</b>&nbsp;หรือ&nbsp;
-            <b>VAT คำนวณแยกกับราคาสินค้า (Excluding VAT)</b>
-            &nbsp;คือ ราคาสินค้าที่แสดงไว้ยังไม่รวมภาษีมูลค่าเพิ่ม
-          </Text>
-          <Text component="li">
-            <b>VAT ใน</b>&nbsp;หรือ
-            <b>&nbsp;VAT คำนวณรวมกับราคาสินค้า&nbsp;(Including VAT)&nbsp;</b>
-            คือ ราคาสินค้าที่แสดงไว้ได้บวกภาษีมูลค่าเพิ่มไว้แล้ว
-            ไม่ต้องจ่ายเพิ่มจากป้าย
-          </Text>
-        </Stack>
-      </Paper>
-    </Container>
+          <b>VAT นอก</b>&nbsp;หรือ&nbsp;
+          <b>VAT คำนวณแยกกับราคาสินค้า (Excluding VAT)</b>
+          &nbsp;คือ ราคาสินค้าที่แสดงไว้ยังไม่รวมภาษีมูลค่าเพิ่ม
+        </Text>
+        <Text
+          component="li"
+          style={{
+            fontSize: "var(--mantine-font-size-lg)",
+          }}
+        >
+          <b>VAT ใน</b>&nbsp;หรือ
+          <b>&nbsp;VAT คำนวณรวมกับราคาสินค้า&nbsp;(Including VAT)&nbsp;</b>
+          คือ ราคาสินค้าที่แสดงไว้ได้บวกภาษีมูลค่าเพิ่มไว้แล้ว
+          ไม่ต้องจ่ายเพิ่มจากป้าย
+        </Text>
+      </Stack>
+    </Paper>
   );
 };
 
-const pageData = [{ title: "VAT", description: "คำนวณภาษีมูลค่าเพิ่ม" }];
-
-const Vat = () => {
+const pageData = { title: "VAT", description: "คำนวณภาษีมูลค่าเพิ่ม" };
+export const VATDetail = () => {
   const [incValue, setIncValue] = useState<number>(0);
   const [excValue, setExcValue] = useState<number>(0);
   const vat: number = 7;
@@ -68,37 +73,19 @@ const Vat = () => {
 
   return (
     <>
-      <PageHero
-        title={pageData[0].title}
-        description={pageData[0].description}
-      />
+      <PageHero title={pageData.title} description={pageData.description} />
       <Space mt={30} />
-      <VATDetail />
-      <Container
-        mt={30}
-        size="sm"
-        sx={(theme) => ({
-          boxShadow: theme.shadows.md,
-          borderRadius: theme.radius.sm,
-          paddingTop: theme.spacing.lg,
-          paddingBottom: theme.spacing.lg,
-          paddingLeft: theme.spacing.xl,
-          paddingRight: theme.spacing.xl,
-        })}
-      >
-        <Tabs defaultValue="exclude" color="primary">
-          <Tabs.List grow>
-            <Tabs.Tab value="exclude" icon={<CurrencyBaht size={14} />}>
-              VAT นอก
-            </Tabs.Tab>
-            <Tabs.Tab value="include" icon={<CurrencyBaht size={14} />}>
-              VAT ใน
-            </Tabs.Tab>
-          </Tabs.List>
+      <Container mt={30} size="md">
+        <VATDescription />
+        <Paper shadow="lg" p="xl">
+          <Tabs defaultValue="exclude">
+            <Tabs.List grow>
+              <Tabs.Tab value="exclude">VAT นอก</Tabs.Tab>
+              <Tabs.Tab value="include">VAT ใน</Tabs.Tab>
+            </Tabs.List>
 
-          {/* exclude VAT */}
-          <Tabs.Panel value="exclude" pt="xs">
-            <Paper>
+            {/* exclude VAT */}
+            <Tabs.Panel value="exclude" pt="xs">
               <form>
                 <TextInput
                   required
@@ -113,7 +100,7 @@ const Vat = () => {
                 />
                 <Space mt={30} />
                 <Grid grow>
-                  <Grid.Col sm={6}>
+                  <Grid.Col>
                     <TextInput
                       readOnly
                       defaultValue={vat}
@@ -124,7 +111,7 @@ const Vat = () => {
                       type="number"
                     />
                   </Grid.Col>
-                  <Grid.Col sm={6}>
+                  <Grid.Col>
                     <TextInput
                       readOnly
                       value={(ExcVatCalculate(excValue) - excValue).toFixed(2)}
@@ -148,21 +135,15 @@ const Vat = () => {
                 />
                 <Center>
                   <Space my={40} />
-                  <Button
-                    leftIcon={<Refresh size={18} />}
-                    type="reset"
-                    onClick={resetValues}
-                  >
+                  <Button size="md" type="reset" onClick={resetValues}>
                     Reset
                   </Button>
                 </Center>
               </form>
-            </Paper>
-          </Tabs.Panel>
+            </Tabs.Panel>
 
-          {/* include VAT */}
-          <Tabs.Panel value="include" pt="xs">
-            <Paper>
+            {/* include VAT */}
+            <Tabs.Panel value="include" pt="xs">
               <form>
                 <TextInput
                   required
@@ -177,7 +158,7 @@ const Vat = () => {
                 />
                 <Space mt={30} />
                 <Grid grow>
-                  <Grid.Col sm={6}>
+                  <Grid.Col>
                     <TextInput
                       readOnly
                       defaultValue={7}
@@ -188,7 +169,7 @@ const Vat = () => {
                       type="number"
                     />
                   </Grid.Col>
-                  <Grid.Col sm={6}>
+                  <Grid.Col>
                     <TextInput
                       readOnly
                       value={(incValue - IncVatCalculate(incValue)).toFixed(2)}
@@ -211,21 +192,15 @@ const Vat = () => {
                 />
                 <Center>
                   <Space my={40} />
-                  <Button
-                    leftIcon={<Refresh size={18} />}
-                    type="reset"
-                    onClick={resetValues}
-                  >
+                  <Button size="md" type="reset" onClick={resetValues}>
                     Reset
                   </Button>
                 </Center>
               </form>
-            </Paper>
-          </Tabs.Panel>
-        </Tabs>
+            </Tabs.Panel>
+          </Tabs>
+        </Paper>
       </Container>
     </>
   );
 };
-
-export default Vat;
